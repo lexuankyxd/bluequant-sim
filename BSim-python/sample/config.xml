@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BSim_Config>
+<!--
+	start_date="20060101" end_date="20200601"
+-->
+  <Params
+    data_dir="./data"
+    start_date="20180101" end_date="20240817"
+    back_days="100"
+	interval="daily"
+	daily_start_time="070000"
+	delay="1"
+  />
+  
+  <DataPool>
+	<Data id="BaseData" 
+		processor="../data_loader/binance_base_data_loader.py" 
+		field_map="open=2 high=3 low=4 close=5 volume=6"
+		data_period="1h"
+      data_path="../../data/"
+	/>
+
+	<Data id="ALL" processor="../data_loader/top_liquid_univ.py" days="20" min_adv="1e6"/>
+	<Data id="Return" processor="../data_loader/dl_return.py" days="1"/>
+	<Data id="Return7" processor="../data_loader/dl_return.py" days="7"/>
+
+	<!-- 
+	<Data id="ALL" processor="TopLiquid" days="60" min_adv="100e3"/>
+	 -->
+	
+	
+	
+  </DataPool>
+  <Simulation num_threads="1" >
+
+    <TradeModules>
+    	<Trade id="trade_at_close" processor="../trade/tradesimple.py"  output_dir="pnl" />
+    </TradeModules>
+
+    <AlphaModules>
+	
+		<Alpha id="alpha1" processor="../alphas/alpha_ta1.py" universe="ALL" booksize="1e6"
+				days="7" mode="1"
+				>
+			<Transforms>
+				<Transform processor="../transformers/alpha_neutralize.py"  mode="0"/>
+			</Transforms>
+		</Alpha>
+
+		<!-- <Alpha id="alpha2" processor="../alphas/alpha_ta1.py" universe="ALL" booksize="1e6" -->
+		<!-- 		days="7" mode="2" -->
+		<!-- 		> -->
+		<!-- 	<Transforms> -->
+		<!-- 		<Transform processor="../transformers/alpha_neutralize.py"  mode="0"/> -->
+		<!-- 	</Transforms> -->
+		<!-- </Alpha> -->
+		<!---->
+		<!-- <Alpha id="alpha3" processor="../alphas/alpha_ta1.py" universe="ALL" booksize="1e6" -->
+		<!-- 		days="14" mode="0" -->
+		<!-- 		> -->
+		<!-- 	<Transforms> -->
+		<!-- 		<Transform processor="../transformers/alpha_neutralize.py"  mode="0"/> -->
+		<!-- 	</Transforms> -->
+		<!-- </Alpha> -->
+
+		
+    </AlphaModules>
+
+  </Simulation>
+
+  
+</BSim_Config>
