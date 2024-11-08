@@ -13,6 +13,6 @@ python-dateutil==2.9.0.post0
 pytz==2024.1
 setuptools==72.1.0
 six==1.16.0
-TA-Lib @ file:///home/conda/feedstock_root/build_artifacts/ta-lib_1719846381206/work
+TA-Lib==0.4.32
 tzdata==2024.1
 wheel==0.43.0
